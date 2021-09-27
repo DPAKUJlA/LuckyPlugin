@@ -22,7 +22,6 @@ public class Handler implements Listener {
                 entityMaxHealth = Double.toString(((LivingEntity) entity).getMaxHealth());
             }
 
-
             e.getDamager().sendMessage(
                     ChatColor.GOLD + "Имя: " + ChatColor.GRAY + e.getEntity().getName() + "\n" +
                             ChatColor.GOLD + "Тип: " + ChatColor.GRAY + e.getEntity().getType() + "\n" +
