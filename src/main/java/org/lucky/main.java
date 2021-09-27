@@ -29,7 +29,9 @@ public final class main extends JavaPlugin implements Listener {
             String hpm = null;
             Entity ent = e.getEntity();
             if (ent instanceof LivingEntity) {
-                hp = Double.toString(((LivingEntity) ent).getHealth() - e.getDamage());
+                Double h = ((LivingEntity) ent).getHealth() - e.getDamage();
+                if (h < 0){ hp = "0"; }
+                else {hp = Double.toString(h);}
                 hpm = Double.toString(((LivingEntity) ent).getMaxHealth());
             }
 
