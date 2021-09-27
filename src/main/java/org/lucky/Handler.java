@@ -36,8 +36,8 @@ public class Handler implements Listener {
 
             ArrayList<String> nbtEntityListValues = new ArrayList(Arrays.asList(nbtEntity.toString().split(",")));
 
-            for(String person : nbtEntityListValues){
-                e.getDamager().sendMessage(person.
+            for(String value : nbtEntityListValues){
+                e.getDamager().sendMessage(value.
                         replace("{", "").
                         replace("}", "").
                         replace("[", "").
