@@ -1,5 +1,5 @@
 name: LuckyPlugin
 version: '${project.version}'
-main: org.lucky.main
+main: org.lucky.Main
 api-version: 1.16
 authors: [ Denisska008 ]
