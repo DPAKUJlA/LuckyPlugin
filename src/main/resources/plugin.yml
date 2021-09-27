@@ -1,4 +1,4 @@
-name: Lucky Plugin
+name: LuckyPlugin
 version: '${project.version}'
 main: org.lucky.main
 api-version: 1.16
