@@ -1,0 +1,5 @@
+name: Lucky Plugin
+version: '${project.version}'
+main: org.lucky.main
+api-version: 1.16
+authors: [ Denisska008 ]
