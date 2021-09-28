@@ -1,5 +1,8 @@
 package org.lucky;
 
+
+import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -8,14 +11,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class Handler implements Listener {
 
     @EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent e) {
+    public void onEntityDamage(EntityDamageByEntityEvent e) throws ParseException {
         if (e.getDamager().getType() == EntityType.PLAYER) {
             String entityHealth = null;
             String entityMaxHealth = null;
@@ -34,17 +40,14 @@ public class Handler implements Listener {
             );
             //e.getDamager().sendMessage(nbtEntity.getCompoundList("Attributes").toString());
 
-            ArrayList<String> nbtEntityListValues = new ArrayList(Arrays.asList(nbtEntity.toString().split(",")));
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(nbtEntity.toString());
 
-            for(String person : nbtEntityListValues){
-                e.getDamager().sendMessage(person.
-                        replace("{", "").
-                        replace("}", "").
-                        replace("[", "").
-                        replace("]", "").
-                        replace(":", " = ")
-                );
-            }
+            jsonObject.forEach((key, value) -> {
+                e.getDamager().sendMessage(key + "= " + value + "(" + value.getClass().getName() + ")");
+            });
+
+
         }
     }
 
