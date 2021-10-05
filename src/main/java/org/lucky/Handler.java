@@ -20,31 +20,56 @@ import java.util.ArrayList;
 
 public class Handler implements Listener {
 
+    private JSONObject getJSONString(NBTEntity entity) {
+        JSONObject jsonObject = new JSONObject();
+
+        entity.getKeys().forEach((s) -> {
+            switch (entity.getType(s)) {
+                case NBTTagInt:
+                    jsonObject.put(s, entity.getInteger(s));
+                    break;
+                case NBTTagByte:
+                    jsonObject.put(s, entity.getByte(s));
+                    break;
+                case NBTTagLong:
+                    jsonObject.put(s, entity.getLong(s));
+                    break;
+                case NBTTagFloat:
+                    jsonObject.put(s, entity.getFloat(s));
+                    break;
+                case NBTTagShort:
+                    jsonObject.put(s, entity.getShort(s));
+                    break;
+                case NBTTagDouble:
+                    jsonObject.put(s, entity.getDouble(s));
+                    break;
+                case NBTTagString:
+                    jsonObject.put(s, entity.getString(s));
+                    break;
+                case NBTTagByteArray:
+                    jsonObject.put(s, entity.getByteArray(s));
+                    break;
+                case NBTTagIntArray:
+                    jsonObject.put(s, entity.getIntArray(s));
+                    break;
+                case NBTTagList:
+                    jsonObject.put(s, entity.getCompoundList(s));
+                    break;
+                default:
+                    jsonObject.put(s, entity.getCompound(s));
+            }
+        });
+        return jsonObject;
+    }
+
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent e) throws ParseException {
         if (e.getDamager().getType() == EntityType.PLAYER) {
-            String entityHealth = null;
-            String entityMaxHealth = null;
             Entity entity = e.getEntity();
             NBTEntity nbtEntity = new NBTEntity(entity);
-            if (entity instanceof LivingEntity) {
-                Double health = ((LivingEntity) entity).getHealth() - e.getDamage();
-                entityHealth = health < 0 ? "0" : Double.toString(health);
-                entityMaxHealth = Double.toString(((LivingEntity) entity).getMaxHealth());
-            }
 
-            e.getDamager().sendMessage(
-                    ChatColor.GOLD + "Имя: " + ChatColor.GRAY + e.getEntity().getName() + "\n" +
-                            ChatColor.GOLD + "Тип: " + ChatColor.GRAY + e.getEntity().getType() + "\n" +
-                            ChatColor.GOLD + "HP: " + ChatColor.GRAY + entityHealth + "/" + entityMaxHealth
-            );
-            //e.getDamager().sendMessage(nbtEntity.getCompoundList("Attributes").toString());
-
-            JSONParser parser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) parser.parse(nbtEntity.toString());
-
-            jsonObject.forEach((key, value) -> {
-                e.getDamager().sendMessage(key + "= " + value + "(" + value.getClass().getName() + ")");
+            getJSONString(nbtEntity).forEach((key, value) -> {
+                e.getDamager().sendMessage(ChatColor.GOLD + String.valueOf(key) + ": " + ChatColor.GREEN + value + ChatColor.GRAY + ChatColor.ITALIC + " (" + value.getClass().getSimpleName() + ")");
             });
 
 
