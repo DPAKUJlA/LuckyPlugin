@@ -2,20 +2,15 @@ package org.lucky;
 
 
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.util.ArrayList;
 
 
 public class Handler implements Listener {
@@ -63,17 +58,14 @@ public class Handler implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent e) throws ParseException {
+    public void onEntityDamage(EntityDamageByEntityEvent e) {
         if (e.getDamager().getType() == EntityType.PLAYER) {
             Entity entity = e.getEntity();
-            NBTEntity nbtEntity = new NBTEntity(entity);
 
-            getJSONString(nbtEntity).forEach((key, value) -> {
-                e.getDamager().sendMessage(ChatColor.GOLD + String.valueOf(key) + ": " + ChatColor.GREEN + value + ChatColor.GRAY + ChatColor.ITALIC + " (" + value.getClass().getSimpleName() + ")");
-            });
+            NBTCompound comp = new NBTEntity(entity).getPersistentDataContainer();
 
+            comp.setFloat("Health", 1234f);
 
         }
     }
-
 }
