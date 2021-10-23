@@ -66,7 +66,7 @@ public class Handler implements Listener {
 
             NBTEntity nbtEntity = new NBTEntity(entity);
 
-            nbtEntity.mergeCompound(new NBTContainer("{Health:1234}"));
+            nbtEntity.mergeCompound(new NBTContainer("{Attributes:[{Name:\"minecraft:generic.max_health\", Base:1234d}],Health:1234f}"));
 
             getJSONString(nbtEntity).forEach((key, value) -> {
                 e.getDamager().sendMessage(ChatColor.GOLD + String.valueOf(key) + ": " + ChatColor.GREEN + value + ChatColor.GRAY + ChatColor.ITALIC + " (" + value.getClass().getSimpleName() + ")");
