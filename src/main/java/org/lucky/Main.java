@@ -1,5 +1,6 @@
 package org.lucky;
 
+import de.tr7zw.nbtinjector.NBTInjector;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

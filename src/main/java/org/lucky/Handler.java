@@ -1,16 +1,18 @@
 package org.lucky;
 
-
 import de.tr7zw.changeme.nbtapi.NBTCompound;
+import de.tr7zw.changeme.nbtapi.NBTContainer;
 import de.tr7zw.changeme.nbtapi.NBTEntity;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.json.simple.JSONObject;
-
 
 
 public class Handler implements Listener {
@@ -62,9 +64,13 @@ public class Handler implements Listener {
         if (e.getDamager().getType() == EntityType.PLAYER) {
             Entity entity = e.getEntity();
 
-            NBTCompound comp = new NBTEntity(entity).getPersistentDataContainer();
+            NBTEntity nbtEntity = new NBTEntity(entity);
 
-            comp.setFloat("Health", 1234f);
+            nbtEntity.mergeCompound(new NBTContainer("{Health:1234}"));
+
+            getJSONString(nbtEntity).forEach((key, value) -> {
+                e.getDamager().sendMessage(ChatColor.GOLD + String.valueOf(key) + ": " + ChatColor.GREEN + value + ChatColor.GRAY + ChatColor.ITALIC + " (" + value.getClass().getSimpleName() + ")");
+            });
 
         }
     }
